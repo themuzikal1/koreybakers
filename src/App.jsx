@@ -5,6 +5,75 @@ export default function App() {
     note: "Limited quantity • pickup only",
   };
 
+  // Temporary product list (display only). Checkout stays the same for now.
+  const products = [
+    {
+      id: "signature-4pack",
+      name: "Signature Chocolate Chip (4-Pack)",
+      kicker: "Featured box",
+      price: "$24",
+      meta: "4-pack • pickup only",
+      desc:
+        "Thick, bakery-style cookies with crisp edges and a soft center — rich chocolate, buttery bite, and that signature top texture.",
+      tags: ["Bakery-size (120g)", "Crisp edge • soft center", "Chef-driven • small batch"],
+      image: "/signature-4pack.png", // your local image
+      cta: "Order",
+    },
+
+    // Locked-in items + southern lineup
+    {
+      id: "maries-teacakes",
+      name: "Marie’s Teacakes",
+      kicker: "Southern classics",
+      price: "Coming soon",
+      meta: "limited drops",
+      // IMPORTANT: locked phrasing (exact)
+      desc:
+        "Soft, old-fashioned tea cakes made with vanilla and nutmeg, inspired by my grandmother Marie.",
+      tags: ["Old-fashioned", "Vanilla + nutmeg", "Small-batch"],
+      // temp web photo
+      image:
+        "https://www.aspicyperspective.com/wp-content/uploads/2022/06/Earl-Grey-Cookies-Tea-Cake-Recipe-9-650x840.jpg",
+      cta: "Notify me",
+    },
+    {
+      id: "sweet-potato-pie",
+      name: "Sweet Potato Pie",
+      kicker: "Southern classics",
+      price: "Coming soon",
+      meta: "seasonal drops",
+      desc:
+        "Southern sweet potato pie with warm spice and a smooth, custardy slice — a heritage staple at the core of Korey Baker’s.",
+      tags: ["Warm spice", "Smooth custard", "Holiday-ready"],
+      image: "https://joyfoodsunshine.com/wp-content/uploads/2022/11/sweet-potato-pie-recipe-3.jpg",
+      cta: "Notify me",
+    },
+    {
+      id: "frednas-hoecakes",
+      name: "Fredna’s Hoecakes",
+      kicker: "Family-inspired",
+      price: "Coming soon",
+      meta: "pickup only",
+      desc:
+        "Skillet-fried corn cakes with crisp edges and a tender center — named for my Southern great-grandmother, Fredna.",
+      tags: ["Skillet-fried", "Crisp edges", "Southern comfort"],
+      image: "https://www.gritsandpinecones.com/wp-content/uploads/2022/04/hoecakes-new-1.jpeg",
+      cta: "Notify me",
+    },
+    {
+      id: "glazed-oatmeal-cookies",
+      name: "Warm Glazed Oatmeal Cookies",
+      kicker: "Nostalgia drop",
+      price: "Coming soon",
+      meta: "limited drop",
+      desc:
+        "Soft oatmeal cookies with a sweet glaze — made for that warm, just-bought feeling (the dashboard snack energy).",
+      tags: ["Soft + chewy", "Sweet glaze", "Nostalgic"],
+      image: "https://www.twopeasandtheirpod.com/wp-content/uploads/2024/11/Iced-Oatmeal-Cookies-24.jpg",
+      cta: "Notify me",
+    },
+  ];
+
   const params = new URLSearchParams(window.location.search);
   const isSuccess = params.get("success");
   const isCanceled = params.get("canceled");
@@ -14,7 +83,7 @@ export default function App() {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({}), // later we can send { productId }
       });
 
       const data = await res.json();
@@ -27,6 +96,53 @@ export default function App() {
   };
 
   const GalleryRail = () => <div className="rail" aria-hidden="true" />;
+
+  const MenuGrid = () => {
+    return (
+      <div className="grid-3">
+        {products.slice(1).map((p) => (
+          <div className="mini" key={p.id}>
+            {/* image */}
+            <img
+              className="context-image"
+              src={p.image}
+              alt={p.name}
+              loading="lazy"
+            />
+
+            <strong>{p.name}</strong>
+            <p style={{ marginTop: 8 }}>{p.desc}</p>
+
+            <div style={{ marginTop: 12 }} className="feature-row" aria-label={`${p.name} tags`}>
+              {p.tags.map((t) => (
+                <span key={t} className="feature" style={{ display: "inline-flex" }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="price-line" style={{ marginTop: 14 }}>
+              <div>
+                <div className="price" style={{ fontSize: 18 }}>{p.price}</div>
+                <div className="meta">{p.meta}</div>
+              </div>
+
+              {/* For now: "Notify me" just scrolls to alerts; "Order" uses your checkout */}
+              {p.cta === "Order" ? (
+                <button className="btn btn-primary" onClick={startCheckout}>
+                  {p.cta}
+                </button>
+              ) : (
+                <a className="btn btn-soft" href="#alerts">
+                  {p.cta}
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -43,6 +159,7 @@ export default function App() {
 
           <nav aria-label="Primary">
             <a className="navlink" href="#product">Cookies</a>
+            <a className="navlink" href="#menu">Menu</a>
             <a className="navlink" href="#collections">Collections</a>
             <a className="navlink" href="#about">About</a>
             <a className="navlink" href="#how">Ordering</a>
@@ -121,26 +238,25 @@ export default function App() {
               <div className="stack">
                 <div className="divider" />
 
-                <div className="kicker">Featured box</div>
-                <h3 className="display">Korey Baker’s Signature Chocolate Chip</h3>
+                <div className="kicker">{products[0].kicker}</div>
+                <h3 className="display">{products[0].name}</h3>
 
                 <img
                   className="product-image"
-                  src="/signature-4pack.png"
+                  src={products[0].image}
                   alt="Boxed 4-pack of Korey Baker’s Signature Chocolate Chip Cookies"
                 />
 
-                <p>
-                  A classic done right — rich chocolate, a buttery bite,
-                  and that signature top texture.
-                </p>
+                <p>{products[0].desc}</p>
 
                 <div className="price-line">
                   <div>
-                    <div className="price">$24</div>
-                    <div className="meta">4-pack • pickup only</div>
+                    <div className="price">{products[0].price}</div>
+                    <div className="meta">{products[0].meta}</div>
                   </div>
-                  <button className="btn btn-primary" onClick={startCheckout}>Order</button>
+                  <button className="btn btn-primary" onClick={startCheckout}>
+                    {products[0].cta}
+                  </button>
                 </div>
 
                 <div className="callout">
@@ -148,6 +264,35 @@ export default function App() {
                 </div>
               </div>
             </aside>
+          </div>
+        </section>
+
+        {/* MENU (NEW) */}
+        <section id="menu" aria-label="Menu">
+          <div className="container">
+            <h2 className="section-title display">Menu (Southern drops)</h2>
+            <GalleryRail />
+
+            <div className="card">
+              <div className="stack">
+                <p className="subtitle">
+                  These are the next items I’m building into the rotation — family-inspired, Southern-rooted,
+                  and made for limited drops.
+                </p>
+
+                <MenuGrid />
+
+                <div className="callout">
+                  <span>Note:</span> These are “coming soon” on the site for now. When you’re ready,
+                  we’ll wire each item to its own Stripe product + price.
+                </div>
+
+                <div className="row row-wrap">
+                  <a className="btn btn-soft" href="#alerts">Get drop alerts</a>
+                  <a className="btn btn-soft" href="#pickup">Pickup details</a>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -194,8 +339,8 @@ export default function App() {
                 <p>Small-batch boxes, drop-based pickup.</p>
               </div>
               <div className="mini">
-                <strong>Commissary Bakes</strong>
-                <p>Rotating pastries + desserts (coming soon).</p>
+                <strong>Southern Drops</strong>
+                <p>Tea cakes, pies, and nostalgic cookies (limited rotation).</p>
               </div>
               <div className="mini">
                 <strong>Seasonal</strong>

@@ -1,22 +1,31 @@
 :root{
   /* =========================
      BRAND + EDITORIAL SYSTEM
+     (Canva-aligned)
   ========================== */
-  --bg: #fbf6ee;               /* warm cream */
-  --paper: rgba(255,255,255,.88);
-  --ink: #1b1b1b;              /* editorial black */
-  --muted: rgba(27,27,27,.68);
+
+  /* Soft coral-led background */
+  --bg: #fde9e6;
+
+  /* Panels feel embedded, not stark */
+  --paper: rgba(255,255,255,.78);
+
+  /* Canva ink (deep navy) */
+  --ink: #00233a;
+  --muted: rgba(0,35,58,.68);
+
+  /* Lines */
   --line: rgba(0,0,0,.10);
 
-  /* Brand accents (keep your brand) */
+  /* Brand accents */
   --accent: #ed8074;           /* coral */
   --accent2: #1d7a8c;          /* teal */
   --deep: #00233a;             /* deep navy */
 
   /* Typography */
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, Helvetica, Arial;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system,
+               BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
 
   /* Layout */
   --max: 1040px;
@@ -25,7 +34,7 @@
   /* Gallery spacing */
   --section-space: clamp(48px, 7vw, 88px);
 
-  /* Flat + refined (not “app UI”) */
+  /* Flat + refined */
   --radius: 0px;
 }
 
@@ -38,10 +47,16 @@ html, body{ height: 100%; }
 body{
   margin: 0;
   color: var(--ink);
-  background:
-    radial-gradient(900px 500px at 10% -10%, rgba(237,128,116,.14), transparent 55%),
-    radial-gradient(900px 500px at 110% 0%, rgba(29,122,140,.10), transparent 52%),
-    var(--bg);
+
+  /* One continuous, seam-free background */
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1200px 700px at 15% -10%, rgba(237,128,116,.16), transparent 60%),
+    radial-gradient(1200px 700px at 110% 10%, rgba(29,122,140,.10), transparent 62%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;   /* prevents “restarts” between sections */
+  background-size: cover;
+
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.7;
@@ -49,13 +64,15 @@ body{
   text-rendering: optimizeLegibility;
 }
 
+
+
 a{ color: inherit; text-decoration: none; }
 .container{ max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
 
 .display{
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 /* =========================
@@ -65,7 +82,7 @@ a{ color: inherit; text-decoration: none; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(251,246,238,.80);
+  background: rgba(253,233,230,.85);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -96,7 +113,7 @@ a{ color: inherit; text-decoration: none; }
 .brand .name{
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 13px;
@@ -109,7 +126,7 @@ a{ color: inherit; text-decoration: none; }
   font-weight: 400;
 }
 
-/* Nav (small caps feel) */
+/* Nav */
 nav{
   display:flex;
   align-items:center;
@@ -134,42 +151,39 @@ nav{
 }
 
 /* =========================
-   BUTTONS (simple, editorial)
+   BUTTONS
 ========================= */
 .btn{
   cursor: pointer;
-  border-radius: 0;                 /* no rounded corners */
+  border-radius: 0;
   padding: 10px 16px;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-
   background: transparent;
-  border: 1px solid var(--deep);
-  color: var(--deep);
-
+  border: 1px solid rgba(0,35,58,.4);
+  color: var(--ink);
   display:inline-flex;
   align-items:center;
   gap: 10px;
   transition: background .12s ease, transform .12s ease;
-  white-space: nowrap;
 }
 
-.btn:active{ transform: translateY(1px); }
 .btn:hover{ background: rgba(0,0,0,.04); }
+.btn:active{ transform: translateY(1px); }
 
 .btn-primary{
-  background: var(--deep);
+  background: var(--ink);
   color: #fff;
-  border-color: var(--deep);
+  border-color: var(--ink);
 }
 .btn-primary:hover{ background: #001b2d; }
 
 .btn-soft{
   background: transparent;
-  color: var(--deep);
-  border-color: rgba(0,35,58,.40);
+  color: var(--ink);
+  border-color: rgba(0,35,58,.4);
 }
 
 /* =========================
@@ -181,33 +195,26 @@ nav{
   display:grid;
   grid-template-columns: 1.15fr .85fr;
   gap: 18px;
-  align-items: start;
 }
 
 @media (max-width: 900px){
   .hero-grid{ grid-template-columns: 1fr; }
-  .brand{ min-width: auto; }
 }
 
-/* Panels (gallery feel) */
+/* Panels */
 .card{
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 0;
-  box-shadow: none;
   padding: 26px;
 }
 
-/* Eyebrow / kicker */
+/* Kicker */
 .kicker{
   display:inline-flex;
-  align-items:center;
   gap: 10px;
   padding: 8px 12px;
   border: 1px solid var(--line);
   background: rgba(255,255,255,.55);
-  color: var(--ink);
-  font-weight: 500;
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -216,95 +223,33 @@ nav{
 /* Hero Title */
 .title{
   font-family: var(--font-display);
-  font-size: clamp(22px, 2.6vw, 32px);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   margin: 18px 0 12px;
 }
 
 /* Subtitle */
 .subtitle{
-  margin: 0 0 18px;
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
   max-width: 62ch;
 }
 
-/* Tags */
-.feature-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap: 10px;
-  margin: 14px 0 18px;
-  padding: 0;
-  list-style:none;
-}
-
-.feature{
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.55);
-  padding: 7px 10px;
-  border-radius: 0;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-.hero-actions{
-  display:flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.help{
-  font-size: 12px;
-  color: var(--muted);
-  margin: 10px 0 0;
-}
-
-/* Callout (subtle, not loud) */
-.callout{
-  margin-top: 12px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.62);
-  padding: 14px 16px;
-  border-radius: 0;
-  color: var(--ink);
-  font-weight: 500;
-  font-size: 13px;
-}
-
-.callout span{
-  color: var(--deep);
-  font-weight: 600;
-}
-
-/* Divider */
-.divider{
-  height: 1px;
-  background: var(--line);
-  margin: 18px 0;
-}
-
 /* =========================
-   PRODUCT CARD
+   PRODUCT
 ========================= */
 .product h3{
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin: 0 0 10px;
 }
 
 .product p{
-  margin: 0;
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
@@ -312,28 +257,52 @@ nav{
 
 .price-line{
   display:flex;
-  align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
   margin-top: 18px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
 }
 
-.price-line .price{
+.price{
   font-size: 26px;
   font-weight: 500;
-  letter-spacing: 0.02em;
   color: var(--deep);
 }
 
-.price-line .meta{
-  font-size: 11px;
+/* =========================
+   SECTIONS
+========================= */
+section{ padding: var(--section-space) 0; }
+
+.section-title{
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer{
+  border-top: 1px solid var(--line);
+  padding: 26px 0 44px;
   color: var(--muted);
-  font-weight: 500;
+  font-size: 12px;
+}
+
+.footer-brand{
+  font-family: var(--font-display);
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+/* =========================
+   RESTORE IMAGE SIZING + HELPERS
+   (these were missing in the replacement)
+========================= */
 
 /* Product image */
 .product-image{
@@ -351,54 +320,7 @@ nav{
   .product-image{ max-width: 100%; }
 }
 
-/* =========================
-   SECTIONS (gallery spacing)
-========================= */
-section{ padding: var(--section-space) 0; }
-
-.section-title{
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin: 0 0 28px;
-  color: var(--ink);
-}
-
-/* Grid */
-.grid-3{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 900px){
-  .grid-3{ grid-template-columns: 1fr; }
-}
-
-/* Mini panels */
-.mini{
-  padding: 18px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.70);
-  border-radius: 0;
-}
-
-.mini strong{
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: 0.02em;
-}
-
-.mini p{
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 13.5px;
-  line-height: 1.75;
-}
-
-/* Context images in minis */
+/* Context images in minis + hero photo */
 .context-image{
   width: 100%;
   height: 180px;
@@ -418,15 +340,12 @@ section{ padding: var(--section-space) 0; }
   background: #fff;
 }
 
-/* =========================
-   ABOUT IMAGE (small + premium)
-========================= */
-.about-card{
-  display:flex;
-  gap: 14px;
-  align-items:flex-start;
+/* Hero photo moment */
+.hero-photo{
+  height: 220px;
 }
 
+/* About avatar */
 .about-avatar{
   width: 72px;
   height: 72px;
@@ -437,8 +356,34 @@ section{ padding: var(--section-space) 0; }
   background: #fff;
 }
 
+/* Layout helpers you rely on */
+.stack{ display: grid; gap: 14px; }
+.stack-tight{ display: grid; gap: 10px; }
+
+.row{ display:flex; gap: 10px; align-items: baseline; }
+.row-wrap{ flex-wrap: wrap; }
+
+.footer-inner{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 14px;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.rail{
+  height: 1px;
+  background: var(--line);
+  margin: 18px 0 26px;
+}
+
+.divider{
+  height: 1px;
+  background: var(--line);
+  margin: 18px 0;
+}
 /* =========================
-   FAQ
+   FAQ (restore)
 ========================= */
 .faq{ display:grid; gap: 10px; }
 
@@ -449,6 +394,7 @@ section{ padding: var(--section-space) 0; }
   overflow:hidden;
 }
 
+/* Make the question row full-width and clean */
 .faq-q{
   width: 100%;
   text-align: left;
@@ -456,94 +402,41 @@ section{ padding: var(--section-space) 0; }
   background: transparent;
   padding: 14px 16px;
   cursor: pointer;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap: 10px;
 
+  font-family: var(--font-body);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--deep);
+  color: var(--ink);
 }
 
+/* Collapse by default */
 .faq-a{
   max-height: 0;
   overflow: hidden;
   transition: max-height .22s ease;
   border-top: 1px solid var(--line);
   padding: 0 16px;
+
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
 }
 
+/* Open state */
 .faq-item.open .faq-a{
   padding: 12px 16px 14px;
   max-height: 240px;
 }
 
-/* =========================
-   FORMS
-========================= */
-input, select, textarea{
-  width: 100%;
-  padding: 12px 12px;
-  border-radius: 0;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.65);
-  color: var(--ink);
-  outline: none;
+/* Make the caret feel consistent */
+.faq-q span{
+  color: rgba(0,35,58,.75);
   font-size: 14px;
-}
-
-textarea{ min-height: 80px; resize: vertical; }
-
-/* =========================
-   FOOTER
-========================= */
-footer{
-  margin-top: 18px;
-  border-top: 1px solid var(--line);
-  padding: 26px 0 44px;
-  color: var(--muted);
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-}
-
-.footer-inner{
-  display:flex;
-  flex-wrap:wrap;
-  gap: 14px;
-  justify-content:space-between;
-  align-items:center;
-}
-/* Layout helpers */
-.stack{ display: grid; gap: 14px; }
-.stack-tight{ display: grid; gap: 10px; }
-
-.row{ display:flex; gap: 10px; align-items: baseline; }
-.row-wrap{ flex-wrap: wrap; }
-
-form .row input{ flex: 1 1 260px; }
-
-/* Gallery rail */
-.rail{
-  height: 1px;
-  background: var(--line);
-  margin: 18px 0 26px;
-}
-
-/* Hero photo moment */
-.hero-photo{
-  height: 220px;
-}
-
-/* Footer brand typography (quiet + editorial) */
-.footer-brand{
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-size: 12px;
 }
